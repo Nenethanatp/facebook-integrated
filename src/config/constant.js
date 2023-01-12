@@ -1,0 +1,3 @@
+export const FB_URL = 'https://graph.facebook.com/';
+export const ACCESS_TOKEN =
+  'EAAZAOiZAFXsyEBAPL7WmrU3DMGBjNPlV8XYB2LJbrzWbELTMIPvvTHwugXIZAOtb4ZCxZBoVuHefaprjG3iljkOLZCOfgZBLZAlgxm8rif6w2dQUlVXYdT74ZCjbpWdrs8iClfNBO8ddXzKtKIsdZCVqx6ctBFoE87gP6fmIAyZChmH0ZBa6fo1g90ZA6';
