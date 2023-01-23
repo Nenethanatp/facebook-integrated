@@ -49,3 +49,12 @@ export const postStatus = (pageId, message) => {
     },
   });
 };
+
+export const getReplyByCommentId = (commentId) => {
+  console.log(commentId);
+  return axios.get(`/${commentId}/comments`, {
+    params: {
+      access_token: ACCESS_TOKEN,
+    },
+  });
+};

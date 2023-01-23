@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import dateFormat from 'dateformat';
+import { getReplyByCommentId } from '../api/graphApi';
+import Reply from './Reply';
 // import { useNavigate } from 'react-router-dom';
 
 function Post(props) {
@@ -7,8 +9,10 @@ function Post(props) {
   const [countComment, setCountComment] = useState('');
   const [date, setDate] = useState('');
   const [openDetail, setOpenDetail] = useState(false);
+  const [replies, setReplies] = useState([]);
   //   console.log(openDetail);
   //   console.log(post.comments?.data);
+  console.log(replies);
   useEffect(() => {
     setCountComment(countCommentFn(post));
     setDate(dateFormat(post.created_time, 'mmm d, yyyy HH:MM'));
@@ -26,13 +30,14 @@ function Post(props) {
     setOpenDetail(true);
   };
 
+  const getReply = async (commentId) => {
+    console.log(commentId);
+    const res = await getReplyByCommentId(commentId);
+    setReplies(res.data.data);
+  };
+
   return (
     <div>
-      {/* <div
-        className="p-2 px-5 rounded bg-white text-black flex items-center justify-between"
-        value={post.id}
-        onClick={handleShowDetail}
-      > */}
       {!openDetail ? (
         <div
           className="p-2 px-5 rounded bg-white text-black flex items-center justify-between"
@@ -63,12 +68,16 @@ function Post(props) {
         <div
           className="p-2 px-5 rounded bg-white text-black flex flex-row justify-between items-center "
           value={post.id}
-          onClick={() => setOpenDetail(false)}
         >
           <div className="flex flex-col w-full">
-            <div className="flex flex-row gap-5">
-              <div>{post.message}</div>
-              <div>{date}</div>
+            <div className="flex justify-between mb-2">
+              <div className="flex space-x-5">
+                <div>{post.message}</div>
+                <div>{date}</div>
+              </div>
+              <div onClick={() => setOpenDetail(false)}>
+                <i className="fa-solid fa-circle-xmark text-lg text-gray-500" />
+              </div>
             </div>
             <div>
               {post.comments ? (
@@ -90,7 +99,27 @@ function Post(props) {
                               )}
                             </div>
                           </div>
-                          <div>Reply: {item.comment_count} </div>
+                          <div className="flex space-x-3">
+                            <div>Reply: {item.comment_count} </div>
+                            {Boolean(item.comment_count) && (
+                              <button
+                                value={item.id}
+                                onClick={(e) => {
+                                  getReply(e.currentTarget.value);
+                                }}
+                              >
+                                <i className="fa-solid fa-circle-chevron-down text-gray-500"></i>
+                              </button>
+                            )}
+                            {/* map reply */}
+                            {/* {replies?.map((reply) => {
+                              return (
+                                <div key={reply.id} className="bg-white">
+                                  <Reply />
+                                </div>
+                              );
+                            })} */}
+                          </div>
                         </div>
                         <div
                           onClick={(e) => {
