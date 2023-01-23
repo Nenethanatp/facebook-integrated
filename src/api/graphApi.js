@@ -51,10 +51,24 @@ export const postStatus = (pageId, message) => {
 };
 
 export const getReplyByCommentId = (commentId) => {
-  console.log(commentId);
   return axios.get(`/${commentId}/comments`, {
     params: {
       access_token: ACCESS_TOKEN,
     },
   });
+};
+
+// export const createReply = (commentId, message) => {
+//   return axios.post(`/${commentId}/comments`, {
+//     params: {
+//       message: message,
+//       access_token: ACCESS_TOKEN,
+//     },
+//   });
+// };
+
+export const createReply = (commentId, message) => {
+  return axios.post(
+    `/${commentId}/comments?message=${message}&access_token=${ACCESS_TOKEN}`
+  );
 };
